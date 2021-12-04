@@ -44,11 +44,24 @@ export default function NovoAgendamento() {
     setLoading(true);
     e.preventDefault();
 
-    let date = `${data.getFullYear()}-${
-      data.getMonth() + 1
-    }-0${data.getDate()}`;
+    let dat = data.getDate() < 10 ? `0${data.getDate()}` : data.getDate();
+    let mes =
+      data.getMonth() + 1 < 10
+        ? `0${data.getMonth() + 1}`
+        : data.getMonth() + 1;
+    let ano = data.getFullYear();
 
-    let hours = `${time.getHours()}:${time.getMinutes()}:${time.getSeconds()}`;
+    let horas = data.getHours() < 10 ? `0${data.getHours()}` : data.getHours();
+    let minutos =
+      data.getMinutes() < 10 ? `0${data.getMinutes()}` : data.getMinutes();
+    let segundos =
+      data.getSeconds() < 10 ? `0${data.getSeconds()}` : data.getSeconds();
+
+    let hours = `${horas}:${minutos}:${segundos}`;
+    let date = `${ano}-${mes}-${dat}`;
+    //  let date = `${data.getFullYear()}-${
+    //  data.getMonth() + 1
+    //}-0${data.getDate()}`;
 
     let dia =
       data.getDay() === 0
@@ -74,27 +87,23 @@ export default function NovoAgendamento() {
       userUnico: `${username}`,
     });
 
-    console.log(json);
-
-    // try {
-    //   const result = await api.post(`/agendamento/novo`, json, {
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //       Authorization: `${token}`,
-    //     },
-    //   });
-    //   setLoading(false);
-    //   alert(
-    //     `Agendamento criado em: ${dia}, ${data.getDate()}/${
-    //       data.getMonth() + 1
-    //     }/${data.getFullYear()}`
-    //   );
-    // } catch (e) {
-    //   alert(
-    //     'Quantidade máxima de usuários nesse horário excedida. Por favor, escolha outro horário.'
-    //   );
-    //   setLoading(false);
-    // }
+    try {
+      const result = await api.post(`/agendamento/novo`, json, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `${token}`,
+        },
+      });
+      setLoading(false);
+      alert(
+        `Agendamento criado em: ${dia}, ${dat.getDate()}/${mes}/${data.getFullYear()}`
+      );
+    } catch (e) {
+      alert(
+        'Quantidade máxima de usuários nesse horário excedida. Por favor, escolha outro horário.'
+      );
+      setLoading(false);
+    }
   };
 
   return (

@@ -37,8 +37,6 @@ export default function Home() {
 
   const date = new Date();
 
-  console.log(date.getMonth());
-
   const todosAgendamentos = async () => {
     try {
       const result = await fetch(
@@ -168,10 +166,7 @@ export default function Home() {
                 ) : (
                   agendamentos.map((element, index) => (
                     <>
-                      {console.log(
-                        element.data.substring(3, 5) <= date.getMonth()
-                      )}
-                      {element.data.substring(3, 5) <= date.getMonth() + 1 &&
+                      {element.data.substring(3, 5) < date.getMonth() + 1 &&
                       element.data.substring(6, 10) <=
                         date.getFullYear() ? null : (
                         <tr key={index}>
