@@ -18,6 +18,8 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
+import { useNavigate } from 'react-router-dom';
+
 import InputMask from 'react-input-mask';
 
 import Link from '@mui/material/Link';
@@ -31,6 +33,8 @@ const theme = createTheme();
 
 export default function Cadastro() {
   const [age, setAge] = useState('');
+
+  const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
   const [nome, setNome] = useState('');
@@ -100,11 +104,13 @@ export default function Cadastro() {
         },
       })
       .then((response) => {
+        console.log(response);
         setLoading(false);
         alert('Usuário cadastrado.');
         navigate('/login');
       })
       .catch((e) => {
+        console.log(e);
         alert('Erro no cadastro do usuário.');
       });
   };

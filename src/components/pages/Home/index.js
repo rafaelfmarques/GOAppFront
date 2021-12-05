@@ -17,6 +17,9 @@ import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import CancelIcon from '@mui/icons-material/Cancel';
 
+import ListItem from '@mui/material/ListItem';
+import ListItemIcon from '@mui/material/ListItemIcon';
+
 export default function Home() {
   const dispatch = useDispatch();
 
@@ -37,6 +40,30 @@ export default function Home() {
 
   const date = new Date();
 
+  const deleteAgendamento = async (id) => {
+    try {
+      const result = await fetch(
+        `http://localhost:8080/goapp/agendamento/excluir/${id}`,
+        {
+          method: 'DELETE',
+          headers: {
+            Authorization: `${token}`,
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      if (autorizacao == 'ROLE_ADMIN') {
+        await todosAgendamentos();
+      } else if (autorizacao == 'ROLE_USER') {
+        await myAgendamentos();
+      }
+    } catch (e) {
+      console.log(e);
+      setError(true);
+    }
+  };
+
   const todosAgendamentos = async () => {
     try {
       const result = await fetch(
@@ -50,6 +77,7 @@ export default function Home() {
         }
       );
       const resultData = await result.json();
+      console.log(resultData);
 
       dispatch({
         type: 'LIMITE_USERS',
@@ -57,7 +85,6 @@ export default function Home() {
           limite: resultData[0].configuracao.valor,
         },
       });
-
       setAgendamentos(resultData);
     } catch (e) {
       setError(true);
@@ -177,7 +204,18 @@ export default function Home() {
                           <td>{element.horarioFim}</td>
                           <td>{element.agendamentoStatus.agendamentoStatus}</td>
                           <td>
-                            <CancelIcon />
+                            <ListItem
+                              button
+                              onClick={() => {
+                                if (window.confirm('Confirma exclusão?')) {
+                                  deleteAgendamento(element.id);
+                                }
+                              }}
+                            >
+                              <ListItemIcon>
+                                <CancelIcon />
+                              </ListItemIcon>
+                            </ListItem>
                           </td>
                         </tr>
                       )}
@@ -221,7 +259,18 @@ export default function Home() {
                         <td>{element.horarioFim}</td>
                         <td>{element.agendamentoStatus.agendamentoStatus}</td>
                         <td>
-                          <CancelIcon />
+                          <ListItem
+                            button
+                            onClick={() => {
+                              if (window.confirm('Confirma exclusão?')) {
+                                deleteAgendamento(element.id);
+                              }
+                            }}
+                          >
+                            <ListItemIcon>
+                              <CancelIcon />
+                            </ListItemIcon>
+                          </ListItem>{' '}
                         </td>
                       </tr>
                     </>

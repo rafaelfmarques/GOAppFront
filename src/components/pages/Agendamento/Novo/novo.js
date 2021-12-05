@@ -51,17 +51,14 @@ export default function NovoAgendamento() {
         : data.getMonth() + 1;
     let ano = data.getFullYear();
 
-    let horas = data.getHours() < 10 ? `0${data.getHours()}` : data.getHours();
+    let horas = time.getHours() < 10 ? `0${time.getHours()}` : time.getHours();
     let minutos =
-      data.getMinutes() < 10 ? `0${data.getMinutes()}` : data.getMinutes();
+      data.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes();
     let segundos =
-      data.getSeconds() < 10 ? `0${data.getSeconds()}` : data.getSeconds();
+      data.getSeconds() < 10 ? `0${time.getSeconds()}` : time.getSeconds();
 
     let hours = `${horas}:${minutos}:${segundos}`;
     let date = `${ano}-${mes}-${dat}`;
-    //  let date = `${data.getFullYear()}-${
-    //  data.getMonth() + 1
-    //}-0${data.getDate()}`;
 
     let dia =
       data.getDay() === 0
@@ -96,11 +93,11 @@ export default function NovoAgendamento() {
       });
       setLoading(false);
       alert(
-        `Agendamento criado em: ${dia}, ${dat.getDate()}/${mes}/${data.getFullYear()}`
+        `Agendamento criado em: ${dia}, ${dat}/${mes}/${data.getFullYear()}`
       );
     } catch (e) {
       alert(
-        'Quantidade máxima de usuários nesse horário excedida. Por favor, escolha outro horário.'
+        'Horário cheio ou já existe um agendamento marcado, verifique e tente novamente.'
       );
       setLoading(false);
     }
