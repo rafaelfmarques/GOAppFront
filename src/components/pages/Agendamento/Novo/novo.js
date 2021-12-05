@@ -39,6 +39,7 @@ export default function NovoAgendamento() {
   const navigate = useNavigate();
 
   const [data, setData] = useState(new Date());
+  const [validaData, setValidaData] = useState(new Date());
 
   const novoAgendamento = async (e) => {
     setLoading(true);
@@ -139,6 +140,9 @@ export default function NovoAgendamento() {
             <Stack spacing={5}>
               <Grid item xs={8} sm={10}>
                 <DesktopDatePicker
+                  shouldDisableDate={(date) =>
+                    date.getDate() < validaData.getDate()
+                  }
                   label="Data"
                   inputFormat="dd/MM/yyyy"
                   value={data}
