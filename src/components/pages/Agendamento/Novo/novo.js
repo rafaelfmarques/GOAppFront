@@ -60,7 +60,6 @@ export default function NovoAgendamento() {
 
     let hours = `${horas}:${minutos}:${segundos}`;
     let date = `${ano}-${mes}-${dat}`;
-
     let dia =
       data.getDay() === 0
         ? 'Domingo'
@@ -97,9 +96,7 @@ export default function NovoAgendamento() {
         `Agendamento criado em: ${dia}, ${dat}/${mes}/${data.getFullYear()}`
       );
     } catch (e) {
-      alert(
-        'Horário cheio ou já existe um agendamento marcado, verifique e tente novamente.'
-      );
+      alert(e);
       setLoading(false);
     }
   };
