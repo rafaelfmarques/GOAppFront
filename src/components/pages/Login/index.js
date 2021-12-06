@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 
-import { Container, Alert, Navbar, Spinner, Button } from 'react-bootstrap';
+import { Container, Navbar, Spinner, Button } from 'react-bootstrap';
 
+import Alert from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
 import { useNavigate } from 'react-router-dom';
 
 import { useDispatch } from 'react-redux';
@@ -137,10 +139,22 @@ export default function Login() {
                   )}
                 </Button>
               </div>
+
+              {show == true ? (
+                <Alert severity="error" style={{ marginTop: 30 }}>
+                  <AlertTitle>Erro</AlertTitle>
+                  Usuário ou senha incorreto.<strong>Tente novamente!</strong>
+                </Alert>
+              ) : null}
+
               <Grid container>
                 <Grid item style={{ marginLeft: 300, marginTop: 30 }}>
                   Ainda não possui uma conta?{' '}
-                  <Link href="/cadastro" variant="body2" style={{ fontSize: 18 }}>
+                  <Link
+                    href="/cadastro"
+                    variant="body2"
+                    style={{ fontSize: 18 }}
+                  >
                     {'Cadastre-se!'}
                   </Link>
                 </Grid>

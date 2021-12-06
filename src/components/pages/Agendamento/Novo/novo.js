@@ -54,11 +54,12 @@ export default function NovoAgendamento() {
 
     let horas = time.getHours() < 10 ? `0${time.getHours()}` : time.getHours();
     let minutos =
-      data.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes();
+      time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes();
     let segundos =
-      data.getSeconds() < 10 ? `0${time.getSeconds()}` : time.getSeconds();
+      time.getSeconds() < 10 ? `0${time.getSeconds()}` : time.getSeconds();
 
     let hours = `${horas}:${minutos}:${segundos}`;
+
     let date = `${ano}-${mes}-${dat}`;
     let dia =
       data.getDay() === 0
@@ -96,7 +97,9 @@ export default function NovoAgendamento() {
         `Agendamento criado em: ${dia}, ${dat}/${mes}/${data.getFullYear()}`
       );
     } catch (e) {
-      alert(e);
+      alert(
+        'Horário cheio ou já existe um agendamento marcado, verifique e tente novamente.'
+      );
       setLoading(false);
     }
   };

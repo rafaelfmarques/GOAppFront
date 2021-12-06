@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
 
-import { Table, Alert, Button, Spinner } from 'react-bootstrap';
+import { Alert, Button, Spinner } from 'react-bootstrap';
 
 import Sidebar from '../../Sidebar/sidebar.js';
 
@@ -10,36 +10,18 @@ import Box from '@mui/material/Box';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Divider from '@mui/material/Divider';
-
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-
-import CancelIcon from '@mui/icons-material/Cancel';
 
 import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
 
-import InputMask from 'react-input-mask';
-
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
 import { useNavigate } from 'react-router-dom';
 
 import api from '../../../services/api.js';
-
-const theme = createTheme();
 
 export default function InserirPersonal() {
   const [users, setUsers] = useState([]);
@@ -53,7 +35,9 @@ export default function InserirPersonal() {
   const [loading, setLoading] = useState(false);
 
   const token = useSelector((state) => state.authReducer.auth.token);
-
+  const autorizacao = useSelector(
+    (state) => state.authReducer.auth.autorizacao
+  );
   const [error, setError] = useState(false);
 
   const addPersonal = async () => {
@@ -79,7 +63,7 @@ export default function InserirPersonal() {
     console.log(result.data);
   };
 
-  return token === '' ? (
+  return token === '' || autorizacao === 'ROLE_USER' ? (
     <Navigate to="/login" />
   ) : (
     <>

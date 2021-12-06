@@ -69,7 +69,9 @@ export default function LimiteUsuarios() {
       });
   };
 
-  return (
+  return token === '' || autorizacao === 'ROLE_USER' ? (
+    <Navigate to="/login" />
+  ) : (
     <Box sx={{ display: 'flex' }}>
       <AppBar
         position="fixed"

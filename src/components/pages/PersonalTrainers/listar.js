@@ -51,7 +51,9 @@ export default function ListarPersonal() {
   const [loading, setLoading] = useState(false);
 
   const token = useSelector((state) => state.authReducer.auth.token);
-
+  const autorizacao = useSelector(
+    (state) => state.authReducer.auth.autorizacao
+  );
   const [error, setError] = useState(false);
 
   const deletePersonal = async (id) => {
@@ -92,7 +94,7 @@ export default function ListarPersonal() {
     listaPersonal();
   }, []);
 
-  return token === '' ? (
+  return token === '' || autorizacao === 'ROLE_USER' ? (
     <Navigate to="/login" />
   ) : (
     <>

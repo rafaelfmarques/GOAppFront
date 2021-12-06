@@ -22,6 +22,7 @@ import Select from '@mui/material/Select';
 
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
+import { useNavigate } from 'react-router-dom';
 
 import InputMask from 'react-input-mask';
 
@@ -36,7 +37,10 @@ const theme = createTheme();
 
 export default function NovoAdmin() {
   const token = useSelector((state) => state.authReducer.auth.token);
-
+  const autorizacao = useSelector(
+    (state) => state.authReducer.auth.autorizacao
+  );
+  const navigate = useNavigate();
   const [age, setAge] = useState('');
 
   const [loading, setLoading] = useState(false);
@@ -112,7 +116,9 @@ export default function NovoAdmin() {
     requests();
   }, []);
 
-  return (
+  return token === '' || autorizacao === 'ROLE_USER' ? (
+    <Navigate to="/login" />
+  ) : (
     <>
       <Box sx={{ display: 'flex' }}>
         <AppBar

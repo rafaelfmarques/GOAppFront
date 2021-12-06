@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 import { useSelector, useDispatch } from 'react-redux';
 
 import { Table, Alert } from 'react-bootstrap';
@@ -20,8 +22,12 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 export default function Usuarios() {
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
 
   const token = useSelector((state) => state.authReducer.auth.token);
+  const autorizacao = useSelector(
+    (state) => state.authReducer.auth.autorizacao
+  );
 
   const [error, setError] = useState(false);
 
@@ -67,7 +73,7 @@ export default function Usuarios() {
     listaUsers();
   }, []);
 
-  return token === '' || token === 'ROLE_USER' ? (
+  return token === '' || autorizacao === 'ROLE_USER' ? (
     <Navigate to="/login" />
   ) : (
     <>
