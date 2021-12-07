@@ -154,7 +154,13 @@ export default function NovoAgendamento() {
               <Grid item xs={8} sm={10}>
                 <TimePicker
                   label="Hora"
+                  minTime={new Date(0, 0, 0, 8)}
+                  maxTime={new Date(0, 0, 0, 18, 45)}
                   value={time}
+                  shouldDisableTime={(timeValue, clockType) => {
+                    return clockType === "minutes" && timeValue != 0;
+
+                  }}
                   onChange={(value) => setTime(value)}
                   renderInput={(params) => <TextField {...params} />}
                 />
