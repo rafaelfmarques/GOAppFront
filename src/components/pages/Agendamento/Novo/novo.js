@@ -31,6 +31,8 @@ export default function NovoAgendamento() {
 
   const [loading, setLoading] = useState(false);
 
+  const [errorDate, setErrorDate] = useState(null);
+
   const autorizacao = useSelector(
     (state) => state.authReducer.auth.autorizacao
   );
@@ -44,63 +46,67 @@ export default function NovoAgendamento() {
   const novoAgendamento = async (e) => {
     setLoading(true);
     e.preventDefault();
+    if (errorDate != null) {
+      alert('Data inválida');
+      setLoading(false)
+    } else {
+      let dat = data.getDate() < 10 ? `0${data.getDate()}` : data.getDate();
+      let mes =
+        data.getMonth() + 1 < 10
+          ? `0${data.getMonth() + 1}`
+          : data.getMonth() + 1;
+      let ano = data.getFullYear();
 
-    let dat = data.getDate() < 10 ? `0${data.getDate()}` : data.getDate();
-    let mes =
-      data.getMonth() + 1 < 10
-        ? `0${data.getMonth() + 1}`
-        : data.getMonth() + 1;
-    let ano = data.getFullYear();
+      let horas =
+        time.getHours() < 10 ? `0${time.getHours()}` : time.getHours();
+      let minutos =
+        time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes();
+      let segundos = '00';
 
-    let horas = time.getHours() < 10 ? `0${time.getHours()}` : time.getHours();
-    let minutos =
-      time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes();
-    let segundos =
-      time.getSeconds() < 10 ? `0${time.getSeconds()}` : time.getSeconds();
+      let hours = `${horas}:${minutos}:${segundos}`;
 
-    let hours = `${horas}:${minutos}:${segundos}`;
+      let date = `${ano}-${mes}-${dat}`;
+      let dia =
+        data.getDay() === 0
+          ? 'Domingo'
+          : data.getDay() === 1
+          ? 'Segunda-Feira'
+          : data.getDay() === 2
+          ? 'Terça-Feira'
+          : data.getDay() === 3
+          ? 'Quarta-Feira'
+          : data.getDay() === 4
+          ? 'Quinta-Feira'
+          : data.getDay() === 5
+          ? 'Sexta-Feira'
+          : data.getDay() === 6
+          ? 'Sábado'
+          : null;
 
-    let date = `${ano}-${mes}-${dat}`;
-    let dia =
-      data.getDay() === 0
-        ? 'Domingo'
-        : data.getDay() === 1
-        ? 'Segunda-Feira'
-        : data.getDay() === 2
-        ? 'Terça-Feira'
-        : data.getDay() === 3
-        ? 'Quarta-Feira'
-        : data.getDay() === 4
-        ? 'Quinta-Feira'
-        : data.getDay() === 5
-        ? 'Sexta-Feira'
-        : data.getDay() === 6
-        ? 'Sábado'
-        : null;
-
-    const json = JSON.stringify({
-      data: `${date}`,
-      horarioInicio: `${hours}`,
-      diasSemana: `${dia}`,
-      userUnico: `${username}`,
-    });
-
-    try {
-      const result = await api.post(`/agendamento/novo`, json, {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `${token}`,
-        },
+      const json = JSON.stringify({
+        data: `${date}`,
+        horarioInicio: `${hours}`,
+        diasSemana: `${dia}`,
+        userUnico: `${username}`,
       });
-      setLoading(false);
-      alert(
-        `Agendamento criado em: ${dia}, ${dat}/${mes}/${data.getFullYear()}`
-      );
-    } catch (e) {
-      alert(
-        'Horário cheio ou já existe um agendamento marcado, verifique e tente novamente.'
-      );
-      setLoading(false);
+
+      try {
+        const result = await api.post(`/agendamento/novo`, json, {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `${token}`,
+          },
+        });
+        setLoading(false);
+        alert(
+          `Agendamento criado em: ${dia}, ${dat}/${mes}/${data.getFullYear()}`
+        );
+      } catch (e) {
+        alert(
+          'Horário cheio ou já existe um agendamento marcado, verifique e tente novamente.'
+        );
+        setLoading(false);
+      }
     }
   };
 
@@ -155,8 +161,10 @@ export default function NovoAgendamento() {
                 <TimePicker
                   label="Hora"
                   minTime={new Date(0, 0, 0, 7)}
-                  maxTime={new Date(0, 0, 0, 21, 0)}
+                  maxTime={new Date(0, 0, 0, 21, 59)}
                   value={time}
+                  ampm={false}
+                  onError={(e) => setErrorDate(e)}
                   shouldDisableTime={(timeValue, clockType) => {
                     return clockType === 'minutes' && timeValue != 0;
                   }}

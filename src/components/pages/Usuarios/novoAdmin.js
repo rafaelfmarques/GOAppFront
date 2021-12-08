@@ -108,7 +108,7 @@ export default function NovoAdmin() {
         alert('Novo usuário inserido.');
       })
       .catch((e) => {
-        alert('Erro na inserção.');
+        alert('Nome de usuário já existe. Por favor escolha outro.');
       });
   };
 
@@ -152,7 +152,7 @@ export default function NovoAdmin() {
               variant="h5"
               style={{ marginTop: -30, marginBottom: 20 }}
             >
-              Cadastrar um novo Usuário Admin
+              Cadastrar um novo usuário Administrador
             </Typography>
             <Box
               component="form"
