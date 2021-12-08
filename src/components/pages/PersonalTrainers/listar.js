@@ -35,7 +35,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 
 import api from '../../../services/api.js';
 
@@ -94,8 +94,10 @@ export default function ListarPersonal() {
     listaPersonal();
   }, []);
 
-  return token === '' || autorizacao === 'ROLE_USER' ? (
+  return token === '' ? (
     <Navigate to="/login" />
+  ) : autorizacao === 'ROLE_USER' ? (
+    <Navigate to="/home" />
   ) : (
     <>
       <Box sx={{ display: 'flex' }}>

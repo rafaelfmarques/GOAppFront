@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 
 import api from '../../../services/api.js';
 
@@ -69,8 +69,10 @@ export default function LimiteUsuarios() {
       });
   };
 
-  return token === '' || autorizacao === 'ROLE_USER' ? (
+  return token === '' ? (
     <Navigate to="/login" />
+  ) : autorizacao === 'ROLE_USER' ? (
+    <Navigate to="/home" />
   ) : (
     <Box sx={{ display: 'flex' }}>
       <AppBar

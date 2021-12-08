@@ -48,7 +48,7 @@ export default function NovoAgendamento() {
     e.preventDefault();
     if (errorDate != null) {
       alert('Data inválida');
-      setLoading(false)
+      setLoading(false);
     } else {
       let dat = data.getDate() < 10 ? `0${data.getDate()}` : data.getDate();
       let mes =

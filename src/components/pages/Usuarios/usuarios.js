@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -62,7 +62,6 @@ export default function Usuarios() {
           },
         }
       );
-      console.log(result);
       await listaUsers();
     } catch (e) {
       setError(true);
@@ -73,8 +72,10 @@ export default function Usuarios() {
     listaUsers();
   }, []);
 
-  return token === '' || autorizacao === 'ROLE_USER' ? (
+  return token === '' ? (
     <Navigate to="/login" />
+  ) : autorizacao === 'ROLE_USER' ? (
+    <Navigate to="/home" />
   ) : (
     <>
       <Box sx={{ display: 'flex' }}>

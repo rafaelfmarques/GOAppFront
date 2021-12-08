@@ -19,7 +19,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import { createTheme } from '@mui/material/styles';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 
 import api from '../../../services/api.js';
 
@@ -63,8 +63,10 @@ export default function InserirPersonal() {
     console.log(result.data);
   };
 
-  return token === '' || autorizacao === 'ROLE_USER' ? (
+  return token === '' ? (
     <Navigate to="/login" />
+  ) : autorizacao === 'ROLE_USER' ? (
+    <Navigate to="/home" />
   ) : (
     <>
       <Box sx={{ display: 'flex' }}>

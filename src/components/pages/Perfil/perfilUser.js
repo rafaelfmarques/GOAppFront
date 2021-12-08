@@ -145,6 +145,8 @@ export default function PerfilUser() {
 
   return token === '' ? (
     <Navigate to="/login" />
+  ) : autorizacao === 'ROLE_USER' ? (
+    <Navigate to="/home" />
   ) : (
     <>
       <Box sx={{ display: 'flex' }}>
