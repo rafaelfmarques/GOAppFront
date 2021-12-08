@@ -57,7 +57,6 @@ export default function Usuarios() {
           method: 'DELETE',
           headers: {
             Authorization: `${token}`,
-            Accept: 'application/json',
             'Content-Type': 'application/json',
           },
         }
@@ -119,7 +118,7 @@ export default function Usuarios() {
                 <tr>
                   <th>Nome</th>
                   <th>Usuário</th>
-                  <th>Autorização</th>
+                  <th>Perfil de usuário</th>
                   <th>Personal Trainer responsável</th>
                 </tr>
               </thead>
@@ -137,34 +136,43 @@ export default function Usuarios() {
                     </tr>
                   </>
                 ) : (
-                  users.map((element, index) => (
-                    <>
-                      <tr key={index}>
-                        <td>{element.nome}</td>
-                        <td>{element.userUnico}</td>
-                        <td>{element.autorizacao[0].nomeAut}</td>
-                        <td style={{ marginLeft: 10 }}>
-                          {element.personalTrainer == null
-                            ? 'Não possui'
-                            : element.personalTrainer.nomePersonal}
-                        </td>
-                        <td>
-                          <ListItem
-                            button
-                            onClick={() => {
-                              if (window.confirm('Confirma exclusão?')) {
-                                deleteUser(element.id);
-                              }
-                            }}
-                          >
-                            <ListItemIcon>
-                              <CancelIcon />
-                            </ListItemIcon>
-                          </ListItem>
-                        </td>
-                      </tr>
-                    </>
-                  ))
+                  users.map(
+                    (element, index) => (
+                      console.log(element),
+                      (
+                        <>
+                          <tr key={index}>
+                            <td>{element.nome}</td>
+                            <td>{element.userUnico}</td>
+                            <td>
+                              {element.autorizacao[0].nomeAut === 'ROLE_ADMIN'
+                                ? 'Administrador'
+                                : 'Aluno'}
+                            </td>
+                            <td style={{ marginLeft: 10 }}>
+                              {element.personalTrainer == null
+                                ? 'Não possui'
+                                : element.personalTrainer.nomePersonal}
+                            </td>
+                            <td>
+                              <ListItem
+                                button
+                                onClick={() => {
+                                  if (window.confirm('Confirma exclusão?')) {
+                                    deleteUser(element.id);
+                                  }
+                                }}
+                              >
+                                <ListItemIcon>
+                                  <CancelIcon />
+                                </ListItemIcon>
+                              </ListItem>
+                            </td>
+                          </tr>
+                        </>
+                      )
+                    )
+                  )
                 )}
               </tbody>
             </Table>

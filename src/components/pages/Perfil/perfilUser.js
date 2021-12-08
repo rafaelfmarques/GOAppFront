@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -145,8 +145,7 @@ export default function PerfilUser() {
 
   return token === '' ? (
     <Navigate to="/login" />
-  ) : autorizacao === 'ROLE_USER' ? (
-    <Navigate to="/home" />
+  
   ) : (
     <>
       <Box sx={{ display: 'flex' }}>
