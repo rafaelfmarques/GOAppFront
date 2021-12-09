@@ -110,8 +110,11 @@ export default function Home() {
   };
 
   useEffect(() => {
-    todosAgendamentos();
-    myAgendamentos();
+    if (autorizacao === 'ROLE_ADMIN') {
+      todosAgendamentos();
+    } else {
+      myAgendamentos();
+    }
   }, []);
 
   return token === '' ? (
@@ -237,7 +240,7 @@ export default function Home() {
               </thead>
 
               <tbody>
-                {agendamentos.length === 0 ? (
+                {meusAgendamentos.length === 0 ? (
                   <>
                     <tr>
                       <td></td>
