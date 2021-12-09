@@ -99,7 +99,7 @@ export default function NovoAgendamento() {
         });
         setLoading(false);
         alert(
-          `Agendamento criado em: ${dia}, ${dat}/${mes}/${data.getFullYear()}`
+          `Agendamento criado em: ${dia}, ${dat}/${mes}/${data.getFullYear()} às ${horas}:${minutos}`
         );
       } catch (e) {
         alert(

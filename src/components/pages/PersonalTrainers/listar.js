@@ -65,11 +65,11 @@ export default function ListarPersonal() {
           'Content-Type': 'application/json',
         },
       });
-      console.log(result.data);
-      await listaUsers();
+      await listaPersonal();
       alert('Personal excluído com sucesso.');
     } catch (e) {
       setError(true);
+      console.log(e);
     }
   };
 
@@ -86,8 +86,6 @@ export default function ListarPersonal() {
     } catch (e) {
       setErro(true);
     }
-
-    console.log(result.data);
   };
 
   useEffect(() => {

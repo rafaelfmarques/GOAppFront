@@ -40,7 +40,8 @@ export default function InserirPersonal() {
   );
   const [error, setError] = useState(false);
 
-  const addPersonal = async () => {
+  const addPersonal = async (e) => {
+    e.preventDefault();
     const json = JSON.stringify({
       nome: `${nome}`,
       email: `${email}`,
@@ -59,8 +60,6 @@ export default function InserirPersonal() {
     } catch (e) {
       alert('Email já existente.');
     }
-
-    console.log(result.data);
   };
 
   return token === '' ? (

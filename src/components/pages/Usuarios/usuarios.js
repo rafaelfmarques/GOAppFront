@@ -42,7 +42,6 @@ export default function Usuarios() {
         },
       });
       const resultData = await result.json();
-
       setUsers(resultData);
     } catch (e) {
       console.log(e);
@@ -64,6 +63,7 @@ export default function Usuarios() {
       await listaUsers();
     } catch (e) {
       setError(true);
+      console.log(e)
     }
   };
 
