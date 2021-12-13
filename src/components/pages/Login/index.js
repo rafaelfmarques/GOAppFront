@@ -10,6 +10,8 @@ import { useDispatch } from 'react-redux';
 
 import api from '../../../services/api.js';
 
+import Popup from 'reactjs-popup';
+
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
@@ -29,11 +31,34 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [show, setShow] = useState(false);
 
+  const [valorTentativas, setValorTentativas] = useState(null);
+
   const navigate = useNavigate();
+
+  const tentativas = async () => {
+    try {
+      const result = await fetch(
+        `http://localhost:8080/goapp/login/tentativas/${username}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      const resultData = await result.json();
+
+      return resultData;
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   const handleLogin = async (e) => {
     setLoading(true);
     e.preventDefault();
+    const tentativa = await tentativas();
+    setValorTentativas(tentativa);
     try {
       const result = await api.post('/login', {
         username: `${username}`,
@@ -41,8 +66,11 @@ export default function Login() {
       });
 
       const resultData = result.data;
-
-      if (resultData.token != null) {
+      if(tentativa === 3){
+        setShow(true)
+        setLoading(false)
+      }else
+        if (resultData.token != null) {
         dispatch({
           type: 'AUTH',
           payload: {
@@ -141,10 +169,22 @@ export default function Login() {
               </div>
 
               {show == true ? (
+                valorTentativas < 3 ?
                 <Alert severity="error" style={{ marginTop: 30 }}>
                   <AlertTitle>Erro</AlertTitle>
-                  Usuário ou senha incorreto.<strong>Tente novamente!</strong>
+                  
+                  Usuário ou senha incorreto.
+                  <strong>Você possui {3 - valorTentativas} tentativas!</strong>
                 </Alert>
+
+                :
+                <Alert severity="error" style={{ marginTop: 30 }}>
+                  <AlertTitle>Erro</AlertTitle>
+                  
+                  Usuário ou senha incorreto.
+                  <strong>Você excedeu o limite (3) de tentativas!</strong>
+                </Alert>
+
               ) : null}
 
               <Grid container>
